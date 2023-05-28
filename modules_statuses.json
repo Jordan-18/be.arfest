@@ -1,5 +1,8 @@
 {
     "Auth": true,
     "Menu": true,
-    "Access": true
+    "Access": true,
+    "User": true,
+    "Point": true,
+    "JenisBusur": true
 }

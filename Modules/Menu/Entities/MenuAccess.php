@@ -4,12 +4,11 @@ namespace Modules\Menu\Entities;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Ramsey\Uuid\Uuid;
 
 class MenuAccess extends Model
 {
-    use HasFactory,SoftDeletes;
+    use HasFactory;
     
     protected $guarded  = ['id'];
     
@@ -24,7 +23,7 @@ class MenuAccess extends Model
         parent::boot();
 
         static::creating(function ($model) {
-            $model->menu_access_id = Uuid::uuid4()->toString();
+            $model->menu_access_id = str_replace("-","",Uuid::uuid4()->toString());
         });
     }
 

@@ -23,7 +23,7 @@ class RelationUserEvent extends Model
         parent::boot();
 
         static::creating(function ($model) {
-            $model->relation_id = Uuid::uuid4()->toString();
+            $model->relation_id = str_replace("-","",Uuid::uuid4()->toString());
         });
     }
 }

@@ -7,9 +7,11 @@ use Illuminate\Support\Facades\DB;
 use Modules\Menu\Entities\Menu;
 
 class MenuService{
+
+    protected $menusResult;
+    protected $countMenu;
     public function index($request)
     {
-
         $limit = $request->input('limit',10);
         $search = $request->input('search');
 
@@ -36,21 +38,33 @@ class MenuService{
             $request->validate([
                 'menu_kode'     => ['required','string','max:32'],
                 'menu_name'     => ['required','string','max:32'],
-                'menu_order'    => ['required','string','max:32'],
-                'menu_level'    => ['required','string','max:32'],
-                'menu_endpoint' => ['required','string','max:32'],
             ]);
 
-            Menu::create([
+            $result = [
                 'menu_kode'     => $request->menu_kode, 
                 'menu_name'     => $request->menu_name,
-                'menu_order'    => $request->menu_order,
-                'menu_hassub'   => $request->menu_hassub,
                 'menu_parent'   => $request->menu_parent,
-                'menu_level'    => $request->menu_level, 
                 'menu_icon'     => $request->menu_icon, 
-                'menu_endpoint' => $request->menu_endpoint, 
-            ]);
+                'menu_order'    => 0, 
+            ];
+
+            $result['menu_endpoint'] = $request->menu_endpoint;
+            $result['menu_level'] = '1';
+            
+            if(isset($request->menu_parent)){
+                $getLevel = Menu::where('menu_id', $request->menu_parent)
+                            ->select('menu_level')
+                            ->get();
+
+                $result['menu_level'] = ((int)$getLevel[0]['menu_level']) + 1;
+            }
+
+            // if($result['menu_level'] = '1'){
+            //     $result['menu_endpoint'] = '#';
+            // }
+
+            Menu::create($result);
+
             DB::commit();
             return ResponseFormatter::success([
                 'Success'
@@ -64,11 +78,13 @@ class MenuService{
             ], 'Create Menu Failed',500);
         }
     }
+    
     public function show($id)
     {
         $menu = Menu::where('menu_id', $id)->get();
         return $menu;
     }
+
     public function update($request,$id)
     {
         DB::beginTransaction();
@@ -76,23 +92,28 @@ class MenuService{
             $request->validate([
                 'menu_kode'     => ['required','string','max:255'],
                 'menu_name'     => ['required','string','max:255'],
-                'menu_order'    => ['required','string','max:255'],
-                'menu_level'    => ['required','string','max:255'],
                 'menu_endpoint' => ['required','string','max:255'],
             ]);
 
-            $updateData = [
+            $result = [
                 'menu_kode'     => $request->menu_kode, 
                 'menu_name'     => $request->menu_name,
-                'menu_order'    => $request->menu_order,
-                'menu_hassub'   => $request->menu_hassub,
-                'menu_parent'   => $request->menu_parent,
-                'menu_level'    => $request->menu_level, 
+                'menu_parent'   => $request->menu_parent, 
                 'menu_icon'     => $request->menu_icon, 
                 'menu_endpoint' => $request->menu_endpoint, 
             ];
 
-            Menu::where('menu_id', $id)->update($updateData);
+            $result['menu_level'] = '1';
+
+            if(isset($request->menu_parent)){
+                $getLevel = Menu::where('menu_id', $request->menu_parent)
+                            ->select('menu_level')
+                            ->get();
+
+                $result['menu_level'] = ((int)$getLevel[0]['menu_level']) + 1;
+            }
+
+            Menu::where('menu_id', $id)->update($result);
             
             DB::commit();
             return ResponseFormatter::success(
@@ -102,11 +123,12 @@ class MenuService{
         catch (Exception $error) {
             DB::rollBack();
             return ResponseFormatter::error([
-                'message' => 'Terjadi Kesalahan saat register',
+                'message' => 'Terjadi Kesalahan',
                 'error' => $error
-            ], 'User Register Failed',500);
+            ], 'Menu Failed Update',500);
         }
     }
+
     public function destroy($id){
         DB::beginTransaction();
         try {
@@ -128,22 +150,26 @@ class MenuService{
 
     public function menus()
     {
-
-        $response = Menu::with(['menus' => function($q1){
-            $q1->with(['menus' => function($q2){
-                $q2->with(['menus'])
-                    ->where(['menu_level' => '3','menu_status' => '1'])
-                    ->select('menu_id','menu_name','menu_parent','menu_icon','menu_endpoint')
-                    ->orderBy('menu_order', 'ASC');
-            }])
-                ->where(['menu_level' => '2','menu_status' => '1'])
-                ->select('menu_id','menu_name','menu_parent','menu_icon','menu_endpoint')
-                ->orderBy('menu_order', 'ASC');
+        $this->countMenu = 1;
+        $this->menusResult = Menu::with(['menus' => function($q1){
+            $this->menuRecursive($q1);
         }])
-            ->where(['menu_level' => '1','menu_status' => '1'])
-            ->select('menu_id','menu_name','menu_parent','menu_icon','menu_endpoint')
-            ->orderBy('menu_order', 'ASC')->get();
+        ->where(['menu_level' => $this->countMenu,'menu_status' => '1'])
+        ->select('menu_id','menu_name','menu_parent','menu_icon','menu_endpoint')
+        ->orderBy('menu_order', 'ASC')->get();
         
-        return $response;
+        return $this->menusResult;
+    }
+
+    public function menuRecursive($query)
+    {
+        $this->countMenu++;
+        
+        $query->with(['menus' => function($q2){
+            $this->menuRecursive($q2);
+        }])
+        ->where(['menu_level' => $this->countMenu,'menu_status' => '1'])
+        ->select('menu_id','menu_name','menu_parent','menu_icon','menu_endpoint')
+        ->orderBy('menu_order', 'ASC');
     }
 }

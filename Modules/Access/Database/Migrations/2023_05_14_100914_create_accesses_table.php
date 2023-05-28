@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('accesses', function (Blueprint $table) {
-            $table->id();
+            // $table->id();
             $table->uuid('access_id', 64);
             $table->string('access_kode', 32);
             $table->string('access_name', 128);

@@ -20,7 +20,7 @@ class User extends Authenticatable
         parent::boot();
 
         static::creating(function ($model) {
-            $model->user_id = Uuid::uuid4()->toString();
+            $model->user_id = str_replace("-","",Uuid::uuid4()->toString());
         });
     }
 }

@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('relation_user_events', function (Blueprint $table) {
-            $table->id();
+            // $table->id();
             $table->uuid('relation_id', 32);
             $table->string('user_id', 32);
             $table->string('point_id', 32)->nullable();

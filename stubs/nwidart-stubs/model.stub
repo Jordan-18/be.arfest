@@ -4,15 +4,25 @@ namespace $NAMESPACE$;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Ramsey\Uuid\Uuid;
 
 class $CLASS$ extends Model
 {
     use HasFactory;
 
-    protected $fillable = $FILLABLE$;
+    protected $guarded  = ['id'];
     
     protected static function newFactory()
     {
         return \$MODULE_NAMESPACE$\$MODULE$\Database\factories\$NAME$Factory::new();
+    }
+
+    public static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($model) {
+            $model->$MODULE$_id = str_replace("-","",Uuid::uuid4()->toString());
+        });
     }
 }

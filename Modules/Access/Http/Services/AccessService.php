@@ -7,13 +7,26 @@ use Illuminate\Support\Facades\DB;
 use Modules\Access\Entities\Access;
 
 class AccessService{
+
     public function index($request)
     {
-        $limit = $request != '' ? $request->input('limit',10) : 0;
+        $limit = $request->input('limit',10);
+        $search = $request->input('search');
 
-        $response = Access::query()->paginate($limit);
+        $response = Access::query();
+
+        if($search){
+            $columns = ['access_kode','access_name'];
+            
+            foreach($columns as $key=>$value){
+                if($key == 0){
+                    $response->where($value,'like','%'.$search.'%');
+                }
+                $response->orWhere($value,'like','%'.$search.'%');
+            }
+        }
         
-        return $response;
+        return $response->paginate($limit);
     }
 
     public function store($request)
