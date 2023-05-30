@@ -4,5 +4,6 @@
     "Access": true,
     "User": true,
     "Point": true,
-    "JenisBusur": true
+    "JenisBusur": true,
+    "GAuth": true
 }

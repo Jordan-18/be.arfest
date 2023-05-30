@@ -1,0 +1,11 @@
+{
+    "name": "GAuth",
+    "alias": "gauth",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\GAuth\\Providers\\GAuthServiceProvider"
+    ],
+    "files": []
+}
