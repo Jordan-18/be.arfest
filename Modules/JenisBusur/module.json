@@ -1,0 +1,11 @@
+{
+    "name": "JenisBusur",
+    "alias": "jenisbusur",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\JenisBusur\\Providers\\JenisBusurServiceProvider"
+    ],
+    "files": []
+}

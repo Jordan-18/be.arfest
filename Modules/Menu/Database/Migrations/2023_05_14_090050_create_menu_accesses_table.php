@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('menu_accesses', function (Blueprint $table) {
-            $table->id();
+            // $table->id();
             $table->uuid('menu_access_id', 64);
             $table->string('menu_access_menu', 64);
             $table->string('menu_access_access', 64);

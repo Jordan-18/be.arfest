@@ -53,13 +53,22 @@ class MenuAccessController extends Controller
         return $this->menuAccessService->destroy($id);
     }
 
-    public function getAccess($id)
+    public function roleAccess($id)
     {
-        $response = $this->menuAccessService->getAccess($id);
+        $response = $this->menuAccessService->roleAccess($id);
 
         return ResponseFormatter::success(
             $response,
-            'Show Accesess'
+            'Role Access'
+        );
+    }
+    public function updateRoleAccess(Request $request, $id)
+    {
+        $response = $this->menuAccessService->updateRoleAccess($request,$id);
+
+        return ResponseFormatter::success(
+            $response,
+            'Role Access'
         );
     }
 }

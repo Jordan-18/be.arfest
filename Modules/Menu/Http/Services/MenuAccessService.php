@@ -7,9 +7,17 @@ use Illuminate\Support\Facades\DB;
 use Modules\Access\Entities\Access;
 use Modules\Menu\Entities\Menu;
 use Modules\Menu\Entities\MenuAccess;
+use PDO;
 
 class MenuAccessService{
 
+    protected $menuService;
+    protected $nestedMenu;
+
+    public function __construct(MenuService $menuService)
+    {
+        $this->menuService = $menuService;
+    }
     public function index()
     {
         $response = MenuAccess::get();
@@ -56,7 +64,7 @@ class MenuAccessService{
         });
 
         foreach ($result01 as $k2=>$v2) {
-            $v2['child'] = $result01->where('menu_parent', $v2['menu_id'])->values();
+            $v2['menus'] = $result01->where('menu_parent', $v2['menu_id'])->values();
 
             if(!$v2['menu_parent']){
                 $response[] = $v2;
@@ -70,14 +78,34 @@ class MenuAccessService{
     {
         DB::beginTransaction();
         try {
+            $request->validate([
+                'data' => ['required']
+            ]);
+
+            MenuAccess::where('menu_access_access', $id)->delete();
+
+            foreach($request->data as $key=>$value){
+                $checked = $value['state']['checked'] ?? false;
+                $indeterminate = $value['state']['indeterminate'] ?? false;
+
+                if($checked || $indeterminate){
+                    MenuAccess::firstOrCreate([
+                        'menu_access_access' => $id,
+                        'menu_access_menu'   => $key
+                    ]);
+                }
+            }
             DB::commit();
+            return ResponseFormatter::success(
+                'Success'
+            , 'Role Menu Access Updated');
         } 
         catch (Exception $error) {
             DB::rollBack();
             return ResponseFormatter::error([
-                'message' => 'Terjadi Kesalahan saat register',
+                'message' => 'Kesalahan dalam program',
                 'error' => $error
-            ], 'User Register Failed',500);
+            ], 'Kesalahan dalam program',500);
         }
     }
     
@@ -95,29 +123,66 @@ class MenuAccessService{
         catch (Exception $error) {
             DB::rollBack();
             return ResponseFormatter::error([
-                'message' => 'Terjadi Kesalahan saat register',
+                'message' => 'Menu Access Failed Failed',
                 'error' => $error
-            ], 'User Register Failed',500);
+            ], 'Menu Access Failed Failed',500);
         }
     }
 
-    public function getAccess($id)
+    public function roleAccess($id)
     {
-        $response = Menu::with(['menus' => function($q1){
-            $q1->with(['menus' => function($q2){
-                $q2->with(['menus'])
-                    ->where(['menu_level' => '3','menu_status' => '1'])
-                    ->select('menu_id','menu_name','menu_parent','menu_icon','menu_endpoint')
-                    ->orderBy('menu_order', 'ASC');
-            }])
-                ->where(['menu_level' => '2','menu_status' => '1'])
-                ->select('menu_id','menu_name','menu_parent','menu_icon','menu_endpoint')
-                ->orderBy('menu_order', 'ASC');
-        }])
-            ->where(['menu_level' => '1','menu_status' => '1'])
-            ->select('menu_id','menu_name','menu_parent','menu_icon','menu_endpoint')
-            ->orderBy('menu_order', 'ASC')->get();
+        $response = [];
+
+        $menus = $this->menuService->menus();
+        $accessMenu = $this->show($id);
+
+        $menus = $this->nestedMenu($menus);
+
+        $this->nestedMenu = [];
+        $accessMenu = $this->nestedMenu($accessMenu);
+
+        foreach($menus as $key=>$value){
+            $response[$key] = $value;
+            $response[$key]['state']['opened'] = true;
+            if(isset($accessMenu[$key])){
+                $response[$key]['state']['checked'] = true;
+            }
+        }
         
         return $response;
+    }
+    
+    public function nestedMenu($data = [])
+    {        
+        foreach($data as $key=>$value){
+            $this->nestedMenu[$value['menu_id']] = array(
+                'text' => $value['menu_name'],
+                'children' => $value['menus']->pluck('menu_id')
+            );
+
+            $this->nestedMenu($value['menus']);
+        }
+
+        return $this->nestedMenu;
+    }
+
+    public function updateRoleAccess($request,$id)
+    {
+        DB::beginTransaction();
+        try {
+            DB::commit();
+            // $request->validate([
+            //     'data' => ['required']
+            // ]);
+
+            var_dump($request);
+        } 
+        catch (Exception $error) {
+            DB::rollBack();
+            return ResponseFormatter::error([
+                'message' => 'Kesalahan dalam program',
+                'error' => $error
+            ], 'Kesalahan dalam program',500);
+        }
     }
 }

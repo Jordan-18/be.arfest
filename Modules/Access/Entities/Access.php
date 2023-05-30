@@ -24,7 +24,7 @@ class Access extends Model
         parent::boot();
 
         static::creating(function ($model) {
-            $model->access_id = Uuid::uuid4()->toString();
+            $model->access_id = str_replace("-","",Uuid::uuid4()->toString());
         });
     }
 
