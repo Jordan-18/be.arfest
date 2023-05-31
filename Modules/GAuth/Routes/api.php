@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Http\Request;
+use Modules\GAuth\Http\Controllers\GAuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,6 +14,5 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->get('/gauth', function (Request $request) {
-    return $request->user();
-});
+Route::get('gauth',[GAuthController::class, 'login']);
+Route::get('gauth/callback',[GAuthController::class, 'callback']);

@@ -25,6 +25,7 @@ class AuthService{
                 'name'      => $request->name,
                 'username'  => $request->username,
                 'email'     => $request->email,
+                'useraccess'=> 'ca68f15c91184faba866bea7dd3484e8',
                 'password'  => Hash::make($request->password),
             ]); 
 
@@ -44,7 +45,7 @@ class AuthService{
             DB::rollBack();
             return ResponseFormatter::error([
                 'message' => 'Terjadi Kesalahan saat register',
-                'error' => $error
+                'error' => $error->getMessage()
             ], 'User Register Failed',500);
         }
     }
@@ -79,7 +80,7 @@ class AuthService{
         }catch(Exception $error){
             return ResponseFormatter::error([
                 'message' => 'Terjadi Sebuah Kesahalan',
-                'error' => $error
+                'error' => $error->getMessage()
             ],'Anuathorized Failed',500);
         }
     }

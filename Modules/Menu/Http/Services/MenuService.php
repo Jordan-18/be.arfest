@@ -74,7 +74,7 @@ class MenuService{
             DB::rollBack();
             return ResponseFormatter::error([
                 'message' => 'Terjadi Kesalahan',
-                'error' => $error
+                'error' => $error->getMessage()
             ], 'Create Menu Failed',500);
         }
     }
@@ -124,7 +124,7 @@ class MenuService{
             DB::rollBack();
             return ResponseFormatter::error([
                 'message' => 'Terjadi Kesalahan',
-                'error' => $error
+                'error' => $error->getMessage()
             ], 'Menu Failed Update',500);
         }
     }
@@ -143,7 +143,7 @@ class MenuService{
             DB::rollBack();
             return ResponseFormatter::error([
                 'message' => 'Terjadi Kesalahan saat register',
-                'error' => $error
+                'error' => $error->getMessage()
             ], 'User Register Failed',500);
         }
     }

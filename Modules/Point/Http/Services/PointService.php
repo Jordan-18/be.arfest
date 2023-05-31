@@ -59,7 +59,7 @@ class PointService{
             DB::rollBack();
             return ResponseFormatter::error([
                 'message' => 'Something Wrong while store new Point',
-                'error' => $error
+                'error' => $error->getMessage()
             ], 'Failed Store Point',500);
         }
     }
@@ -91,7 +91,7 @@ class PointService{
             DB::rollBack();
             return ResponseFormatter::error([
                 'message' => 'Something Wrong while Update new Access',
-                'error' => $error
+                'error' => $error->getMessage()
             ], 'Update Failed',500);
         }
     }
@@ -109,7 +109,7 @@ class PointService{
             DB::rollBack();
             return ResponseFormatter::error([
                 'message' => 'Terjadi Kesalahan saat register',
-                'error' => $error
+                'error' => $error->getMessage()
             ], 'User Register Failed',500);
         }
     }
