@@ -29,18 +29,8 @@ class PointController extends Controller
         return $this->pointService->store($request);
     }
 
-    public function show($id)
+    public function printPoint($id)
     {
-        return view('point::show');
-    }
-
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    public function destroy($id)
-    {
-        //
+        return $this->pointService->printPoint($id);
     }
 }

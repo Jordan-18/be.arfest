@@ -5,7 +5,7 @@ namespace Modules\JenisBusur\Http\Controllers;
 use App\Helpers\ResponseFormatter;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
-use Modules\JenisBusur\http\Services\JenisBusurService;
+use Modules\JenisBusur\Http\Services\JenisBusurService;
 
 class JenisBusurController extends Controller
 {

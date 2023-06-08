@@ -5,7 +5,6 @@ use App\Helpers\ResponseFormatter;
 use Exception;
 use Illuminate\Support\Facades\DB;
 use Modules\Point\Entities\Point;
-use Modules\Point\Entities\point_detail;
 use Modules\Point\Entities\PointDetail;
 
 class PointService{
@@ -98,45 +97,8 @@ class PointService{
             ], 'Failed Store Point',500);
         }
     }
-    public function show($id)
+    public function printPoint($id)
     {
-        $menu = Point::where('access_id', $id)->get();
-        return $menu;
-    }
-    public function update($request,$id)
-    {
-        DB::beginTransaction();
-        try {
-            
-            DB::commit();
-            return ResponseFormatter::success(
-                'Success'
-            , 'Access Updated');
-        } 
-        catch (Exception $error) {
-            DB::rollBack();
-            return ResponseFormatter::error([
-                'message' => 'Something Wrong while Update new Point',
-                'error' => $error->getMessage()
-            ], 'Update Failed',500);
-        }
-    }
-    public function destroy($id)
-    {
-        DB::beginTransaction();
-        try {
-            Point::where('point_id', $id)->delete();
-            DB::commit();
-            return ResponseFormatter::success(
-            'Success'
-            ,'Point Deleted');
-        } 
-        catch (Exception $error) {
-            DB::rollBack();
-            return ResponseFormatter::error([
-                'message' => '',
-                'error' => $error->getMessage()
-            ], '',500);
-        }
+        var_dump($id);
     }
 }

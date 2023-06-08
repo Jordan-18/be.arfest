@@ -20,11 +20,11 @@ return new class extends Migration
             $table->date('point_tanggal');
             $table->string('point_jarak', 20);
             $table->string('point_jenis_busur', 32);
-            $table->integer('point_rambahan', 20);
-            $table->integer('point_jumlah_anak_panah', 20);
-            $table->integer('point_total', 32)->nullable();
+            $table->integer('point_rambahan');
+            $table->integer('point_jumlah_anak_panah');
+            $table->integer('point_total')->nullable();
             $table->string('point_event', 32)->nullable();
-            $table->integer('point_presentase', 16)->nullable();
+            $table->integer('point_presentase')->nullable();
             $table->text('point_keterangan');
             $table->timestamps();
             $table->softDeletes();

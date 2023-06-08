@@ -1,5 +1,5 @@
 <?php
-namespace Modules\JenisBusur\http\Services;
+namespace Modules\JenisBusur\Http\Services;
 
 use App\Helpers\ResponseFormatter;
 use Exception;

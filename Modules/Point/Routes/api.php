@@ -16,4 +16,5 @@ use Modules\Point\Http\Controllers\PointController;
 
 Route::middleware('auth:sanctum','verified')->group(function(){
     Route::apiResource('point', PointController::class);
+    Route::get('point/print/{id?}', [PointController::class, 'printPoint']);
 });
