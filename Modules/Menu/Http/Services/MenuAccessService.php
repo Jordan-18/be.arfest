@@ -46,7 +46,7 @@ class MenuAccessService{
             DB::rollBack();
             return ResponseFormatter::error([
                 'message' => 'Something Wrong while store new Menu Access',
-                'error' => $error
+                'error' => $error->getMessage()
             ], 'Store Failed',500);
         }
     }
@@ -104,7 +104,7 @@ class MenuAccessService{
             DB::rollBack();
             return ResponseFormatter::error([
                 'message' => 'Kesalahan dalam program',
-                'error' => $error
+                'error' => $error->getMessage()
             ], 'Kesalahan dalam program',500);
         }
     }
@@ -124,7 +124,7 @@ class MenuAccessService{
             DB::rollBack();
             return ResponseFormatter::error([
                 'message' => 'Menu Access Failed Failed',
-                'error' => $error
+                'error' => $error->getMessage()
             ], 'Menu Access Failed Failed',500);
         }
     }
@@ -181,7 +181,7 @@ class MenuAccessService{
             DB::rollBack();
             return ResponseFormatter::error([
                 'message' => 'Kesalahan dalam program',
-                'error' => $error
+                'error' => $error->getMessage()
             ], 'Kesalahan dalam program',500);
         }
     }

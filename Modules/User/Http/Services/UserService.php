@@ -57,7 +57,7 @@ class UserService {
             DB::rollBack();
             return ResponseFormatter::error([
                 'message' => 'User Failed Created',
-                'error' => $error
+                'error' => $error->getMessage()
             ], 'User Failed Created',500);
         }
     }
@@ -104,7 +104,7 @@ class UserService {
             DB::rollBack();
             return ResponseFormatter::error([
                 'message' => 'User Failed Updated',
-                'error' => $error
+                'error' => $error->getMessage()
             ], 'User Failed Updated',500);
         }
     }
@@ -123,7 +123,7 @@ class UserService {
             DB::rollBack();
             return ResponseFormatter::error([
                 'message' => 'Terjadi Kesalahan pada program',
-                'error' => $error
+                'error' => $error->getMessage()
             ], 'User Failed Deleted',500);
         }
     }

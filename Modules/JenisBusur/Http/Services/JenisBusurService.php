@@ -50,7 +50,7 @@ class JenisBusurService{
             DB::rollBack();
             return ResponseFormatter::error([
                 'message' => 'Something Wrong while store new Jenis Busur',
-                'error' => $error
+                'error' => $error->getMessage()
             ], 'Store Failed',500);
         }
     }
@@ -82,7 +82,7 @@ class JenisBusurService{
             DB::rollBack();
             return ResponseFormatter::error([
                 'message' => 'Something Wrong while Update new Jenis Busur',
-                'error' => $error
+                'error' => $error->getMessage()
             ], 'Update Failed',500);
         }
     }
@@ -100,7 +100,7 @@ class JenisBusurService{
             DB::rollBack();
             return ResponseFormatter::error([
                 'message' => 'Something Wrong while Delete Jenis Busur',
-                'error' => $error
+                'error' => $error->getMessage()
             ], 'Delete Failed',500);
         }
     }

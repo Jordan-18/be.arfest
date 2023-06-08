@@ -15,5 +15,14 @@ class GAuthController extends Controller
         $this->gAuthService = $gAuthService;
     }
 
+    public function login(Request $request)
+    {
+        return $this->gAuthService->loginGoogle($request);
+    }
+
+    public function callback(Request $request)
+    {
+        return $this->gAuthService->callback($request);
+    }
     
 }
