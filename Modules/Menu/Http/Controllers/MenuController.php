@@ -6,7 +6,7 @@ use App\Helpers\ResponseFormatter;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
-use Modules\Menu\http\Services\MenuService;
+use Modules\Menu\Http\Services\MenuService;
 
 class MenuController extends Controller
 {

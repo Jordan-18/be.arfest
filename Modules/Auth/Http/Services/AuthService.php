@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Auth\http\Services;
+namespace Modules\Auth\Http\Services;
 
 use App\Helpers\ResponseFormatter;
 use App\Models\User;

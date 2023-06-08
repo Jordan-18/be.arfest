@@ -1,10 +1,9 @@
 <?php
-namespace Modules\Gauth\http\Services;
+namespace Modules\Gauth\Http\Services;
 
 use App\Helpers\ResponseFormatter;
 use App\Models\User;
 use Exception;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Redirect;
 use Laravel\Socialite\Facades\Socialite;

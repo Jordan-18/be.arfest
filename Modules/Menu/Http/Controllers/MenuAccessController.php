@@ -6,9 +6,9 @@ use App\Helpers\ResponseFormatter;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
-use Modules\Access\http\Services\AccessService;
-use Modules\Menu\http\Services\MenuAccessService;
-use Modules\Menu\http\Services\MenuService;
+use Modules\Access\Http\Services\AccessService;
+use Modules\Menu\Http\Services\MenuAccessService;
+use Modules\Menu\Http\Services\MenuService;
 
 class MenuAccessController extends Controller
 {

@@ -5,7 +5,7 @@ namespace Modules\Access\Http\Controllers;
 use App\Helpers\ResponseFormatter;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
-use Modules\Access\http\Services\AccessService;
+use Modules\Access\Http\Services\AccessService;
 
 class AccessController extends Controller
 {

@@ -4,7 +4,7 @@ namespace Modules\Auth\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
-use Modules\Auth\http\Services\AuthService;
+use Modules\Auth\Http\Services\AuthService;
 
 class AuthController extends Controller
 {

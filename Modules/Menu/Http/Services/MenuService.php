@@ -1,5 +1,5 @@
 <?php
-namespace Modules\Menu\http\Services;
+namespace Modules\Menu\Http\Services;
 
 use App\Helpers\ResponseFormatter;
 use Exception;

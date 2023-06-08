@@ -6,7 +6,7 @@ use App\Helpers\ResponseFormatter;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
-use Modules\User\http\Services\UserService;
+use Modules\User\Http\Services\UserService;
 
 class UserController extends Controller
 {
