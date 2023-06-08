@@ -4,18 +4,17 @@ namespace Modules\Point\Entities;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Ramsey\Uuid\Uuid;
 
-class Point extends Model
+class PointDetail extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory;
 
     protected $guarded  = ['id'];
     
     protected static function newFactory()
     {
-        return \Modules\Point\Database\factories\PointFactory::new();
+        return \Modules\Point\Database\factories\PointDetailFactory::new();
     }
 
     public static function boot()
@@ -23,12 +22,7 @@ class Point extends Model
         parent::boot();
 
         static::creating(function ($model) {
-            $model->point_id = str_replace("-","",Uuid::uuid4()->toString());
+            $model->point_detail_id = str_replace("-","",Uuid::uuid4()->toString());
         });
-    }
-
-    public function PointDetail()
-    {
-        return $this->hasMany(PointDetail::class, 'point_detail_induk', 'point_id');
     }
 }
