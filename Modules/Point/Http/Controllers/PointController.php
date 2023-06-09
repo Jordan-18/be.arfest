@@ -5,7 +5,7 @@ namespace Modules\Point\Http\Controllers;
 use App\Helpers\ResponseFormatter;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
-use Modules\Point\http\Services\PointService;
+use Modules\Point\Http\Services\PointService;
 
 class PointController extends Controller
 {

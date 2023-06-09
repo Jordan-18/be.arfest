@@ -4,7 +4,7 @@ namespace Modules\GAuth\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
-use Modules\Gauth\Http\Services\GAuthService;
+use Modules\GAuth\Http\Services\GAuthService;
 
 class GAuthController extends Controller
 {

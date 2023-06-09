@@ -1,5 +1,5 @@
 <?php
-namespace Modules\Gauth\Http\Services;
+namespace Modules\GAuth\Http\Services;
 
 use App\Helpers\ResponseFormatter;
 use App\Models\User;
