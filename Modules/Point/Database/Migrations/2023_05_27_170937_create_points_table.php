@@ -25,7 +25,7 @@ return new class extends Migration
             $table->integer('point_total')->nullable();
             $table->string('point_event', 32)->nullable();
             $table->integer('point_presentase')->nullable();
-            $table->text('point_keterangan');
+            $table->text('point_keterangan')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
