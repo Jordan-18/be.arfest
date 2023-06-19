@@ -43,7 +43,7 @@ return [
         ],
         'replacements' => [
             'routes/web' => ['LOWER_NAME', 'STUDLY_NAME'],
-            'routes/api' => ['LOWER_NAME'],
+            'routes/api' => ['LOWER_NAME','STUDLY_NAME'],
             // 'vite' => ['LOWER_NAME'],
             'json' => ['LOWER_NAME', 'STUDLY_NAME', 'MODULE_NAMESPACE', 'PROVIDER_NAMESPACE'],
             // 'views/index' => ['LOWER_NAME'],

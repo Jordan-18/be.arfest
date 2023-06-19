@@ -185,4 +185,23 @@ class MenuAccessService{
             ], 'Kesalahan dalam program',500);
         }
     }
+
+    public function rolePureAccess($id)
+    {
+        $response = [];
+        $menus = Menu::orderBy('menu_order')->get();
+        $menuAccess = MenuAccess::where('menu_access_access', $id)->get();
+        $menuAccess = $menuAccess->pluck('menu_access_menu');
+
+        
+        $result01 = $menus->filter(function ($menu) use ($menuAccess){
+            return $menuAccess->contains($menu['menu_id']);
+        });
+
+        foreach ($result01 as $k2=>$v2) {
+            $response[] = $v2;
+        }
+
+        return $response;
+    }
 }
