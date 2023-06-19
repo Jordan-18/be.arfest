@@ -71,4 +71,12 @@ class MenuAccessController extends Controller
             'Role Access'
         );
     }
+
+    public function rolePureAccess($id) 
+    {
+        $response = $this->menuAccessService->rolePureAccess($id);
+        return ResponseFormatter::success(
+            $response, 
+        'Menu Access Data');
+    }
 }

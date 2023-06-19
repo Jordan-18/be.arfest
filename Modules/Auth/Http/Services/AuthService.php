@@ -67,7 +67,7 @@ class AuthService{
 
             $user = User::where('email',$request->email)->first();
 
-            if(! Hash::check($request->password, $user->password, [])){
+            if(!Hash::check($request->password, $user->password, [])){
                 throw new \Exception('Invalid Credentials');
             }
 
@@ -92,7 +92,12 @@ class AuthService{
 
     public function logout($request)
     {
+        Auth::logout();
+
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
         $token = $request->user()->currentAccessToken()->delete();
+
         return ResponseFormatter::success($token,'Token Revoked');
     }
 

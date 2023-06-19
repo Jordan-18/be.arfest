@@ -21,5 +21,6 @@ Route::middleware('auth:sanctum','verified')->group(function(){
 
     Route::get('/menus', [MenuController::class, 'menus']);
     Route::get('/roleaccess/{id?}', [MenuAccessController::class, 'roleAccess']);
+    Route::get('/rolepureaccess/{id?}', [MenuAccessController::class, 'rolePureAccess']);
     Route::put('/roleaccess/{id?}', [MenuAccessController::class, 'updateRoleAccess']);
 });
