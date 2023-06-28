@@ -29,8 +29,17 @@ class PointController extends Controller
         return $this->pointService->store($request);
     }
 
+    public function destroy($id)
+    {
+        return $this->pointService->destroy($id);
+    }
+
     public function printPoint($id)
     {
-        return $this->pointService->printPoint($id);
+        $response =$this->pointService->printPoint($id);
+        
+        return ResponseFormatter::success(
+            $response, 
+        'Point Print Data');
     }
 }
