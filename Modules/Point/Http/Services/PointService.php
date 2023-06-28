@@ -2,6 +2,7 @@
 namespace Modules\Point\Http\Services;
 
 use App\Helpers\ResponseFormatter;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Exception;
 use Illuminate\Support\Facades\DB;
 use Modules\Point\Entities\Point;
@@ -97,8 +98,43 @@ class PointService{
             ], 'Failed Store Point',500);
         }
     }
+    public function destroy($id){
+        DB::beginTransaction();
+        try {
+            Point::where('point_id', $id)->delete();
+            PointDetail::where('point_detail_induk', $id)->delete();
+
+            DB::commit();
+            return ResponseFormatter::success(
+                'Success'
+            ,'Point Deleted');
+        } 
+        catch (Exception $error) {
+            DB::rollBack();
+            return ResponseFormatter::error([
+                'message' => 'Terjadi Kesalahan menghapus Point',
+                'error' => $error->getMessage()
+            ], 'Terjadi Kesalahan menghapus Point',500);
+        }
+    }
     public function printPoint($id)
     {
-        var_dump($id);
+        $data = Point::with(['PointDetail'])
+            ->leftJoin('jenis_busurs','points.point_jenis_busur','=','jenis_busurs.jenis_busur_id')
+            ->leftJoin('users','points.point_user','=','users.user_id')
+            ->select(
+                'points.*',
+                'jenis_busurs.jenis_busur_name',
+                'users.username'
+        )->where('point_id', $id)->get();
+        
+        // $customPaper = array(0,0,3.90,8.27);
+        $pdf = Pdf::loadView('PDF.point', array(
+            'data' => $data
+        ));
+        // ->setPaper($customPaper, 'potrait');
+        $pdfContent = $pdf->output();
+        $response = base64_encode($pdfContent);
+        return $response;
     }
 }
