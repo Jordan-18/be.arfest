@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Http\Request;
+use Modules\Event\Http\Controllers\EventController;
+use Modules\Event\Http\Controllers\RelationEventController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,6 +15,9 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->get('/event', function (Request $request) {
-    return $request->user();
+Route::middleware('auth:sanctum','verified')->group(function(){
+    Route::apiResource('event', EventController::class);
+    Route::apiResource('relationevent', RelationEventController::class);
+
+    Route::post('/updateimg/{id?}', [EventController::class, 'updateImg']);
 });

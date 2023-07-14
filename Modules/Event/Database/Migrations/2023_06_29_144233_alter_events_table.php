@@ -13,13 +13,8 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('relation_user_events', function (Blueprint $table) {
-            // $table->id();
-            $table->uuid('relation_id', 32);
-            $table->string('user_id', 32);
-            $table->string('point_id', 32)->nullable();
-            $table->string('event_id', 32)->nullable();
-            $table->timestamps();
+        Schema::table('events', function (Blueprint $table) {
+            $table->date('event_date_actual')->after('event_description')->nullable();
         });
     }
 
@@ -30,6 +25,8 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('relation_user_events');
+        Schema::table('events', function (Blueprint $table) {
+            $table->dropColumn('event_date_actual');
+        });
     }
 };
