@@ -289,6 +289,19 @@ class MenuAccessService{
         
         $result01 = $menus->filter(function ($menu) use ($menuAccess){
             return $menuAccess->contains($menu['menu_id']);
+        })->map(function ($menu) use ($id) {
+            $menuAccessItem =  MenuAccess::where([
+                'menu_access_menu' => $menu['menu_id'],
+                'menu_access_access' => $id
+            ])->first();
+
+            if ($menuAccessItem !== null && $menu['menu_endpoint'] != '#'){
+                $menu['create'] = $menuAccessItem['menu_access_create'];
+                $menu['read']   = $menuAccessItem['menu_access_read'];
+                $menu['update'] = $menuAccessItem['menu_access_update'];
+                $menu['delete'] = $menuAccessItem['menu_access_delete'];
+            }
+            return $menu;
         });
 
         foreach ($result01 as $k2=>$v2) {

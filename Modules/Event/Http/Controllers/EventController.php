@@ -2,78 +2,52 @@
 
 namespace Modules\Event\Http\Controllers;
 
-use Illuminate\Contracts\Support\Renderable;
+use App\Helpers\ResponseFormatter;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Modules\Event\Http\Services\EventService;
 
 class EventController extends Controller
-{
-    /**
-     * Display a listing of the resource.
-     * @return Renderable
-     */
-    public function index()
-    {
-        return view('event::index');
+{   
+    protected $EventService; 
+
+    public function __construct(EventService $service){
+        $this->EventService = $service;
     }
 
-    /**
-     * Show the form for creating a new resource.
-     * @return Renderable
-     */
-    public function create()
+    public function index(Request $request)
     {
-        return view('event::create');
+        $response = $this->EventService->index($request);
+        return ResponseFormatter::success(
+            $response, 
+        'Event Datas');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     * @param Request $request
-     * @return Renderable
-     */
     public function store(Request $request)
     {
-        //
+        return $this->EventService->store($request);
     }
 
-    /**
-     * Show the specified resource.
-     * @param int $id
-     * @return Renderable
-     */
     public function show($id)
     {
-        return view('event::show');
+        $response = $this->EventService->show($id);
+        return ResponseFormatter::success(
+            $response, 
+        'Event Data');
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     * @param int $id
-     * @return Renderable
-     */
-    public function edit($id)
-    {
-        return view('event::edit');
-    }
-
-    /**
-     * Update the specified resource in storage.
-     * @param Request $request
-     * @param int $id
-     * @return Renderable
-     */
     public function update(Request $request, $id)
     {
-        //
+        return $this->EventService->update($request,$id);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     * @param int $id
-     * @return Renderable
-     */
+    function updateImg(Request $request, $id)
+    {
+        return $this->EventService->updateImg($request,$id);
+    }
+
     public function destroy($id)
     {
-        //
+        return $this->EventService->destroy($id);
     }
 }
